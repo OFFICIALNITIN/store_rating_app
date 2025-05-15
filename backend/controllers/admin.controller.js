@@ -91,8 +91,7 @@ exports.getAllUsers = asyncHandler(async (req, res) => {
   if (name) filters.name = { [Op.iLike]: `%${name}%` };
   if (email) filters.email = { [Op.iLike]: `%${email}%` };
   if (address) filters.address = { [Op.iLike]: `%${address}%` };
-  ``;
-  if (name) filters.role = role;
+  if (role) filters.role = role;
 
   // calculate pagination
   const offset = (parseInt(page) - 1) * parseInt(limit);
@@ -158,22 +157,20 @@ exports.getAllStores = asyncHandler(async (req, res) => {
       {
         model: Rating,
         attributes: [],
+        required: false,
       },
     ],
     attributes: {
       include: [
         [
-          sequelize.fn(
-            "COALESCE",
-            sequelize.fn("AVG", sequelize.col("Ratings.rating")),
-            0
-          ),
+          sequelize.literal('ROUND(COALESCE(AVG("Ratings"."rating"), 0),1)'),
           "averageRating",
         ],
-        [sequelize.fn("COUNT", sequelize.col("Ratings.id")), "ratingsCount"],
+        [sequelize.literal('COUNT("Ratings"."id")'), "ratingsCount"],
       ],
     },
     group: ["Store.id", "owner.id"],
+    subQuery: false,
   });
 
   sendResponse(res, "Successfully fetched stores", 200, {
@@ -191,7 +188,7 @@ exports.getAllStores = asyncHandler(async (req, res) => {
 exports.getUserDetails = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
-  const user = User.findByPk(id, {
+  const user = await User.findByPk(id, {
     attributes: { exclude: ["password"] },
   });
 
@@ -226,9 +223,9 @@ exports.getUserDetails = asyncHandler(async (req, res) => {
     response.stores_count = stores.length;
     response.averageRating = calculateAverage(allRatings);
     response.totalRatings = allRatings.length;
-
-    sendResponse(res, "Successfully fetched user details", 200, { response });
   }
+
+  sendResponse(res, "Successfully fetched user details", 200, response);
 });
 
 // Helper function to calculate average rating

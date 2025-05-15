@@ -4,7 +4,8 @@ const { isAdmin } = require("../middlewares/role.middleware");
 const adminController = require("../controllers/admin.controller");
 const router = express.Router();
 
-router.use(auth, isAdmin);
+router.use(auth);
+router.use(isAdmin);
 
 router.get("/dashboard", adminController.getDashboardStats);
 router.post("/users", adminController.createUser);

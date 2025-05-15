@@ -1,8 +1,9 @@
 const {
   asyncHandler,
   createError,
+  sendResponse,
 } = require("../middlewares/errorHandler.middleware");
-const { Store, Rating } = require("../models");
+const { Store, Rating, User } = require("../models");
 
 exports.getDashboard = asyncHandler(async (req, res) => {
   const ownerId = req.user?.id;
@@ -45,5 +46,7 @@ exports.getDashboard = asyncHandler(async (req, res) => {
     })
   );
 
-  sendResponse(res, "Dashboard data retrieved successfully", dashboard);
+  return sendResponse(res, "Dashboard data retrieved successfully", 200, {
+    dashboard,
+  });
 });

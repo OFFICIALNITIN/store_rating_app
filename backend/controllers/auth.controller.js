@@ -9,7 +9,7 @@ const {
   comparePasswords,
   generateToken,
 } = require("../utils/auth");
-const { validate, userSchema } = require("../utils/validation");
+const { validate, userSchema, loginSchema } = require("../utils/validation");
 
 exports.register = [
   validate(userSchema),
@@ -41,30 +41,34 @@ exports.register = [
   }),
 ];
 
-exports.login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+exports.login = [
+  validate(loginSchema),
+  asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
 
-  // Find user by email
-  const user = await User.findOne({ where: { email } });
+    // Find user by email
+    const user = await User.findOne({ where: { email } });
 
-  if (!user) throw createError("Invalid credentials", 401);
+    if (!user) throw createError("Invalid credentials", 401);
 
-  // verify password
-  const match = await comparePasswords(password, user.password);
+    // verify password
+    const match = await comparePasswords(password, user.password);
 
-  if (!match) throw createError("Invalid credentials", 401);
+    if (!match) throw createError("Invalid credentials", 401);
 
-  // Generate token
-  const token = generateToken(user);
+    // Generate token
+    const token = generateToken(user);
 
-  // Return success response
+    // Return success response
 
-  sendResponse(res, "Login successful", 200, {
-    token,
-    user: {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    },
-  });
-});
+    sendResponse(res, "Login successful", 200, {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  }),
+];

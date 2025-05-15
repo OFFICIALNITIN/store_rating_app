@@ -5,7 +5,7 @@ const auth = require("../middlewares/auth.middleware");
 
 router.use(auth);
 
-router.post("/update-password", userController.updatePassword);
+router.put("/update-password", userController.updatePassword);
 router.get("/stores", userController.getAllStoresWithRatings);
 router.post("/ratings", userController.submitRating);
 router.put("/ratings/:id", userController.updateRating);

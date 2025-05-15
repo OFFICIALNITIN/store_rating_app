@@ -8,6 +8,7 @@ const {
   validate,
   passwordSchema,
   storeSchema,
+  ratingSchema,
 } = require("../utils/validation");
 const User = require("../models/user.model");
 const { comparePasswords, hashPassword } = require("../utils/auth");
@@ -60,22 +61,27 @@ exports.getAllStoresWithRatings = asyncHandler(async (req, res) => {
   const storeList = await Promise.all(
     stores.map(async (store) => {
       const allRatings = await Rating.findAll({ where: { storeId: store.id } });
+
       const avgRating =
         allRatings.length > 0
-          ? (
-              allRatings.reduce((sum, r) => sum + r.rating, 0) /
-              allRatings.length
-            ).toFixed(2)
-          : "N/A";
-      const userRating =
-        ratings.find((r) => r.storeId === store.id)?.rating || null;
+          ? Number(
+              (
+                allRatings.reduce((sum, r) => sum + r.rating, 0) /
+                allRatings.length
+              ).toFixed(2)
+            )
+          : 0;
+
+      const userRatingEntry = ratings.find((r) => r.storeId === store.id);
 
       return {
         id: store.id,
         name: store.name,
         address: store.address,
+        email: store.email,
         averageRating: avgRating,
-        userRating: userRating,
+        userRating: userRatingEntry?.rating || null,
+        ratingId: userRatingEntry?.id || null,
       };
     })
   );
@@ -85,7 +91,7 @@ exports.getAllStoresWithRatings = asyncHandler(async (req, res) => {
 
 // Submit Rating
 exports.submitRating = [
-  validate(storeSchema),
+  validate(ratingSchema),
   asyncHandler(async (req, res) => {
     const userId = req.user?.id;
     const { storeId, rating } = req.body;
@@ -102,7 +108,18 @@ exports.submitRating = [
 
     const newRating = await Rating.create({ userId, storeId, rating });
 
-    sendResponse(res, "Rating submitted successfully", 201, newRating);
+    // Calculate new average rating
+    const allRatings = await Rating.findAll({ where: { storeId } });
+    const newAverageRating = Number(
+      (
+        allRatings.reduce((sum, r) => sum + r.rating, 0) / allRatings.length
+      ).toFixed(2)
+    );
+
+    sendResponse(res, "Rating submitted successfully", 201, {
+      rating: newRating,
+      newAverageRating,
+    });
   }),
 ];
 

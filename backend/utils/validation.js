@@ -2,9 +2,9 @@ const joi = require("joi");
 
 // Define register validation schema
 const userSchema = joi.object({
-  name: joi.string().min(10).max(20).required().messages({
-    "string.min": "Name must be at least 10 characters",
-    "string.max": "Name cannot exceed 20 characters",
+  name: joi.string().min(20).max(60).required().messages({
+    "string.min": "Name must be at least 20 characters",
+    "string.max": "Name cannot exceed 60 characters",
     "any.required": "Name is required",
   }),
 

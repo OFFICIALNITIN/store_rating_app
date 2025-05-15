@@ -14,8 +14,8 @@ const asyncHandler = (fn) => {
     } catch (error) {
       const functionName = fn.displayName || fn.name || "anonymous";
       console.error(`Error in ${functionName}:`, error);
-      res.status(500).json({
-        message: "Server error occurred",
+      res.status(error.status || 500).json({
+        message: error.message || "Server error occurred",
         error:
           process.env.NODE_ENV === "production" ? undefined : error.message,
       });
