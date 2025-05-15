@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://store-rating-app-ecd6.onrender.com/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -88,7 +88,6 @@ const rateStore = async (token, storeId, rating) => {
 };
 
 const updateExistingRating = async (token, ratingId, newRatingValue) => {
-  
   const response = await apiClient.put(
     `users/ratings/${ratingId}`,
     { rating: newRatingValue },
