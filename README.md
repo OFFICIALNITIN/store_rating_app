@@ -27,9 +27,8 @@ This README focuses on the **ReactJS frontend** and **Express.js backend** of th
    - [Environment Configuration](#environment-configuration)
    - [Running the Application](#running-the-application)
 
-6. [Folder Structure (Frontend)](#folder-structure-frontend)
-7. [Available Scripts](#available-scripts)
-8. [Application Usage & Functionalities](#application-usage--functionalities)
+6. [Available Scripts](#available-scripts)
+7. [Application Usage & Functionalities](#application-usage--functionalities)
 
    - [1. User Registration (Normal User)](#1-user-registration-normal-user)
    - [2. User Login (All Roles)](#2-user-login-all-roles)
@@ -39,10 +38,10 @@ This README focuses on the **ReactJS frontend** and **Express.js backend** of th
    - [6. Profile Management (All Logged-in Users)](#6-profile-management-all-logged-in-users)
    - [7. Logging Out](#7-logging-out)
 
-9. [API Integration](#api-integration)
-10. [Form Validations](#form-validations)
-11. [Contributing](#contributing)
-12. [License](#license)
+8. [API Integration](#api-integration)
+9. [Form Validations](#form-validations)
+10. [Contributing](#contributing)
+11. [License](#license)
 
 ## Overview
 
@@ -183,58 +182,6 @@ cd frontend
 npm run start
 ```
 
-## Folder Structure (Frontend)
-
-src/
-├── app/
-├── assets/ # Static assets (images, etc.)
-├── components/
-│ ├── common/ # Navbar, ProtectedRoute, Modal, etc.
-│ ├── admin/ # Admin-specific UI components (UserTable, StoreTable)
-│ ├── user/ # Normal User specific UI (StoreCard, RatingForm)
-├── features/ # Redux Slices (auth, users, stores, dashboards)
-├── hooks/ # Custom React hooks (e.g., useAuth)
-├── pages/ # Top-level route components (LoginPage, AdminDashboardPage, etc.)
-├── services/
-│ └── apiService.js # Centralized API call functions
-├── utils/ # Utility functions (validators, formatters)
-├── App.js # Main application component with routing
-├── index.js # Entry point of the React application
-└── index.css # Global styles (including TailwindCSS imports)
-
-## Folder Structure (Backend)
-
-backend/
-├── config/
-│ └── db.js # Sequelize DB config
-├── controllers/
-│ ├── auth.controller.js # Auth logic
-│ ├── admin.controller.js # Admin functionality
-│ ├── user.controller.js # Normal user functionality
-│ └── storeOwner.controller.js # Store owner dashboard
-├── middlewares/
-│ ├── auth.middleware.js # JWT authentication
-│ ├── role.middleware.js # Role-based access control
-│ └── errorHandler.middleware.js # Centralized error handler
-├── models/
-│ ├── index.js # Sequelize initialization
-│ ├── user.model.js # User model
-│ ├── store.model.js # Store model
-│ └── rating.model.js # Rating model
-├── routes/
-│ ├── auth.routes.js # /auth/_
-│ ├── admin.routes.js # /admin/_
-│ ├── user.routes.js # /user/_
-│ └── storeOwner.routes.js # /owner/_
-├── utils/
-│ ├── auth.js # Hashing & JWT helpers
-│ └── validation.js # Input validation helpers
-├── .env # Environment variables
-├── app.js # Express app & middleware setup
-├── server.js # Entry point
-├── package.json # Node dependencies
-└── README.md # Backend documentation
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -257,7 +204,7 @@ npm run build    # Builds app for production
 
   - Admin: `/admin/dashboard`
   - User: `/user/stores`
-  - Store Owner: `/owner/dashboard`
+  - Store Owner: `/ownerStore/dashboard`
 
 ### 3. System Administrator
 
