@@ -16,7 +16,6 @@ const AdminStoreListPage = () => {
   const stores = useSelector(selectAllStores);
   const status = useSelector(selectStoresStatus);
 
-  console.log(stores);
   const error = useSelector(selectStoresError);
 
   const [filters, setFilters] = useState({
