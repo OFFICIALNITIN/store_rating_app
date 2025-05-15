@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -35,12 +35,6 @@ const AdminAddUserPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState({ message: "", type: "success" });
-
-  // useEffect(() => { // If fetching stores for a dropdown
-  //   if (formData.role === 'Store Owner') {
-  //     dispatch(fetchStores()); // Or a specific fetch for store names/IDs
-  //   }
-  // }, [dispatch, formData.role]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -246,12 +240,7 @@ const AdminAddUserPage = () => {
                 errors.storeId ? "border-red-500" : "border-gray-300"
               } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             />
-            {/* Or use a select dropdown:
-            <select name="storeId" id="storeId" value={formData.storeId} onChange={handleChange} className="...">
-              <option value="">Select Store</option>
-              {availableStores.map(store => <option key={store.id} value={store.id}>{store.name}</option>)}
-            </select>
-            */}
+
             {errors.storeId && (
               <p className="text-red-500 text-xs italic">{errors.storeId}</p>
             )}

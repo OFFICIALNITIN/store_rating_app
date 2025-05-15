@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authSlice";
 
 const Navbar = () => {
-  const { isAuthenticated, isAdmin, isUser, isOwner, user } = useAuth();
+  const { isAuthenticated, isAdmin, isUser, isOwner } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
